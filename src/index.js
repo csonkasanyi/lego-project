@@ -1,17 +1,30 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import {BrowserRouter, Routes, Route} from "react-router-dom";
 import './index.css';
 import App from './App';
-import reportWebVitals from './reportWebVitals';
+import Legos from './components/Legos';
+import About from './components/About';
+import Contacts from './components/Contact';
+import Box from '@mui/material/Box';
+import Link from '@mui/material/Link';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+     <Box className='navbar'>
+      <Link href="/" underline="hover">Home</Link>
+      <Link href="/legos" underline="hover">Legos</Link>
+      <Link href="/about" underline="hover">About us</Link>
+      <Link href="/contacts" underline="hover">Contacts</Link>
+    </Box>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<App/>}/>
+        <Route path="/legos" element={<Legos/>}/>
+        <Route path="/about" element={<About/>}/>
+        <Route path="/contacts" element={<Contacts/>}/>
+      </Routes>
+    </BrowserRouter>
   </React.StrictMode>,
   document.getElementById('root')
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
