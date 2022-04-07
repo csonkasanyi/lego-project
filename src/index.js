@@ -6,17 +6,13 @@ import App from './App';
 import Legos from './components/Legos';
 import About from './components/About';
 import Contacts from './components/Contact';
+import ResponsiveAppBar from './components/ResponsiveAppBar';
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
 
 ReactDOM.render(
   <React.StrictMode>
-     <Box className='navbar'>
-      <Link href="/" underline="hover">Home</Link>
-      <Link href="/legos" underline="hover">Legos</Link>
-      <Link href="/about" underline="hover">About us</Link>
-      <Link href="/contacts" underline="hover">Contacts</Link>
-    </Box>
+    <ResponsiveAppBar />
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<App/>}/>
