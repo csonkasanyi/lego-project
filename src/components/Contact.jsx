@@ -43,7 +43,7 @@ const Contacts = () => {
                         <Item className="contacts">
                             <h1>Elérhetőségeink</h1>
                             <h2><LocationOnIcon />5665 Pusztaottlaka, Kossuth u. 57.</h2>
-                            <h2><AlternateEmailIcon />autoszerviz@varosom.hu</h2>
+                            <h2><AlternateEmailIcon />lego@legorenter.hu</h2>
                             <h2><PhoneIcon />+36-99/123-45-67</h2>
                         </Item>
                     </Grid>

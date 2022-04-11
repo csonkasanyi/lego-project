@@ -1,13 +1,28 @@
 import React, { useState, useEffect } from "react";
 import Button from '@mui/material/Button';
-import { DataGrid } from '@mui/x-data-grid';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { styled } from '@mui/material/styles';
+
+import CardHeader from '@mui/material/CardHeader';
+import CardMedia from '@mui/material/CardMedia';
+import CardContent from '@mui/material/CardContent';
+import CardActions from '@mui/material/CardActions';
+import Collapse from '@mui/material/Collapse';
+import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
-import Tooltip from '@mui/material/Tooltip';
+import Typography from '@mui/material/Typography';
+import { red } from '@mui/material/colors';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import ShareIcon from '@mui/icons-material/Share';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
 import NewItem from "./NewItem";
+import MediaCard from './MediaCard';
 import './legos.css'
 
  
+
+
 const Legos = () => {
 
     const [legos, setLegos] = useState([]);
@@ -23,34 +38,22 @@ const Legos = () => {
 
     useEffect(() => {
         fetchLegos()
-    }, [])
+    }, [legos])
 
-    const rows = legos.map(oneLego => (
-            {
-                id: oneLego.id,
-                name: oneLego.name,
-                category: oneLego.category,
-                year: oneLego.year}
-        ));
     
-    const columns = [
-        { field: 'id', headerName: 'ID', width: 150 },
-        { field: 'name', headerName: 'Name', width: 300 },
-        { field: 'category', headerName: 'Category', width: 150 },
-        { field: 'year', headerName: 'Year', width: 100 },
-        { field: 'delete', headerName: 'Delete', width: 100}
-      ];
-      
 
     return (
         <>
             <NewItem />
-            <h1>Kérem, tekintse meg Legóinkat!</h1>
-            <div className="tableContainer">
-                <div style={{ width: '80%' }} className='legoTable'>
-                    <DataGrid rows={rows} columns={columns} autoHeight={true} />
-                </div>
-            </div>          
+            <h1 className="App">Kérem, tekintse meg Legóinkat!</h1>
+            <h2 className="App">Összesen: {legos.length} db</h2>
+            <div className="legoContainer">
+                {legos.map((oneLego) => {
+                    return (
+                        <MediaCard image={oneLego.image} name={oneLego.name} year={oneLego.year} category={oneLego.category} id={oneLego.id}/>
+                    )
+                })}
+            </div>
         </>
     )
 }

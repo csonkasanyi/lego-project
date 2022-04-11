@@ -9,18 +9,32 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import { useState } from 'react';
+import { width } from '@mui/system';
 
 const style = {
   position: 'absolute',
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: 800,
+  width: [300, 500, 800],
   bgcolor: 'background.paper',
   border: '2px solid #000',
   boxShadow: 24,
   p: 4,
 };
+
+const inputFieldWith = {
+  width: [250, 450, 220],
+  color: 'yellow',
+}
+
+const newLegoButtonStyle = {
+  position: 'fixed',
+  bottom: "20px",
+  right: "20px",
+  width: '300px',
+  "z-index": 1,
+}
 
 const NewItem = () => {
   const [open, setOpen] = useState(false);
@@ -39,7 +53,7 @@ const NewItem = () => {
 
   return (
     <div>
-      <Button onClick={handleOpen}>Add new lego</Button>
+      <Button variant="contained" color="success" onClick={handleOpen} sx={newLegoButtonStyle}>Add new lego</Button>
       <Modal
         open={open}
         onClose={handleClose}
@@ -65,6 +79,7 @@ const NewItem = () => {
                         id="outlined-number"
                         label="ID"
                         type="number"
+                        sx={{ width: 250,}}
                     />
                     <TextField
                         required
@@ -72,7 +87,7 @@ const NewItem = () => {
                         label="Name"
                         defaultValue=""
                     />
-                    <FormControl sx={{ m: 1, minWidth: 240 }}>
+                    <FormControl sx={{ m: 1, width: 215.833,}}>
                         <InputLabel id="demo-simple-select-label">Category</InputLabel>
                         <Select
                             labelId="demo-simple-select-label"
@@ -98,15 +113,14 @@ const NewItem = () => {
                         label="Year"
                         type="number"
                         autoComplete="current-password"
+                        sx={{ width: 320, maxWidth: 345 }}
                     />
                     <TextField
-                        required
                         id="outlined-helperText"
                         label="Image URL"
                         defaultValue=""
                     />
                     <TextField
-                        required
                         id="outlined-multiline-flexible"
                         label="Description"
                         multiline
