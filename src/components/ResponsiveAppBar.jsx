@@ -1,5 +1,5 @@
 import React from 'react';
-import {useState} from 'react';
+import { useState } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -15,7 +15,7 @@ import MenuItem from '@mui/material/MenuItem';
 
 const pages = [
   {
-    name:'Legos',
+    name: 'Legos',
     url: 'http://localhost:3000/legos'
   },
   {
@@ -52,7 +52,7 @@ const ResponsiveAppBar = () => {
     <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          
+
           <Typography
             variant="h6"
             noWrap
@@ -60,9 +60,9 @@ const ResponsiveAppBar = () => {
             sx={{ mr: 2, display: { xs: 'none', md: 'flex' } }}
             onClick={(e) => console.log(e.target.innerText)}
           >
-            HOME
+            <a href='http://localhost:3000'>HOME</a>
           </Typography>
-          
+
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
@@ -106,7 +106,7 @@ const ResponsiveAppBar = () => {
             component="div"
             sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}
           >
-            HOME
+            <a href='http://localhost:3000'>HOME</a>
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (

@@ -38,7 +38,7 @@ const Legos = () => {
 
     useEffect(() => {
         fetchLegos()
-    }, [legos])
+    }, [])
 
     
 
@@ -50,7 +50,7 @@ const Legos = () => {
             <div className="legoContainer">
                 {legos.map((oneLego) => {
                     return (
-                        <MediaCard image={oneLego.image} name={oneLego.name} year={oneLego.year} category={oneLego.category} id={oneLego.id}/>
+                        <MediaCard key={oneLego.id} image={oneLego.image} name={oneLego.name} year={oneLego.year} category={oneLego.category} id={oneLego.id}/>
                     )
                 })}
             </div>
