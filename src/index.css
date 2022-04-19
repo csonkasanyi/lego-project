@@ -35,3 +35,7 @@ a {
 .danger {
   color: red;
 }
+
+.menuInMobileView {
+  color: rgba(0,0,0,0.9);
+}

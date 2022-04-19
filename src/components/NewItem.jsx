@@ -9,8 +9,8 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import { useState } from 'react';
-import { width } from '@mui/system';
 import { Alert } from '@mui/material';
+import legoCategories from './legoCategories';
 
 const style = {
   position: 'absolute',
@@ -49,9 +49,7 @@ const NewItem = () => {
   const [enableSubmit, setEnableSubmit] = useState(false);
 
   const handleChange = (e) => {
-    console.log(e.target.value);
-    setValue(e.target.value)
-    newLegoItem["category"] = e.target.value;
+    newLegoItem.category = e.target.value;
   };
 
   const gatheringNewLegoInformation = ({ target: { value, id } }) => {
@@ -75,7 +73,6 @@ const NewItem = () => {
   if (newLegoItem.id) {
     const tempErrorMessageArray = [...errorMessage];
     const index = errorMessage.indexOf('ID is required');
-    console.log(index);
     if (index !== -1) {
       tempErrorMessageArray.splice(index, 1);
       setErrorMessage(tempErrorMessageArray);
@@ -83,7 +80,6 @@ const NewItem = () => {
   } else {
     const tempErrorMessageArray = [...errorMessage];
     const index = errorMessage.indexOf('ID is required');
-    console.log(index);
     if (index === -1) {
       tempErrorMessageArray.push('ID is required');
       setErrorMessage(tempErrorMessageArray);
@@ -91,7 +87,6 @@ const NewItem = () => {
   if (newLegoItem.name) {
     const tempErrorMessageArray = [...errorMessage];
     const index = errorMessage.indexOf('Name is required');
-    console.log(index);
     if (index !== -1) {
       tempErrorMessageArray.splice(index, 1);
       setErrorMessage(tempErrorMessageArray);
@@ -99,7 +94,6 @@ const NewItem = () => {
   } else {
     const tempErrorMessageArray = [...errorMessage];
     const index = errorMessage.indexOf('Name is required');
-    console.log(index);
     if (index === -1) {
       tempErrorMessageArray.push('Name is required');
       setErrorMessage(tempErrorMessageArray);
@@ -107,7 +101,6 @@ const NewItem = () => {
   if (newLegoItem.category) {
     const tempErrorMessageArray = [...errorMessage];
     const index = errorMessage.indexOf('Category is required');
-    console.log(index);
     if (index !== -1) {
       tempErrorMessageArray.splice(index, 1);
       setErrorMessage(tempErrorMessageArray);
@@ -115,7 +108,6 @@ const NewItem = () => {
   } else {
     const tempErrorMessageArray = [...errorMessage];
     const index = errorMessage.indexOf('Category is required');
-    console.log(index);
     if (index === -1) {
       tempErrorMessageArray.push('Category is required');
       setErrorMessage(tempErrorMessageArray);
@@ -123,7 +115,6 @@ const NewItem = () => {
   if (newLegoItem.year && newLegoItem.year > 1931) {
     const tempErrorMessageArray = [...errorMessage];
     const index = errorMessage.indexOf('Year is required');
-    console.log(index);
     if (index !== -1) {
       tempErrorMessageArray.splice(index, 1);
       setErrorMessage(tempErrorMessageArray);
@@ -131,22 +122,17 @@ const NewItem = () => {
   } else {
     const tempErrorMessageArray = [...errorMessage];
     const index = errorMessage.indexOf('Year is required');
-    console.log(index);
     if (index === -1) {
       tempErrorMessageArray.push('Year is required');
       setErrorMessage(tempErrorMessageArray);
   }}
-  console.log(errorMessage);
 
   if (errorMessage.length === 0) {
     setEnableSubmit(true);
    }
-   console.log(newLegoItem);
-
 }
 
   const submitForm = async () => {
-    console.log(newLegoItem);
     await fetch('http://localhost:8080/new-lego', {
         method: 'POST',
         headers: {
@@ -196,7 +182,6 @@ const NewItem = () => {
                 id="legoId"
                 label="ID"
                 type="number"
-                placeholder='' /* object propertyje */
                 sx={{ width: 250, }}
               />
               <TextField
@@ -210,19 +195,10 @@ const NewItem = () => {
                 <Select
                   labelId="legoCategory"
                   id="legoCategory"
-                  value = {value}
                   label="Category"
                   onChange={handleChange}
                 >
-                  <MenuItem value={'City'}>City</MenuItem>
-                  <MenuItem value={'Creator'}>Creator</MenuItem>
-                  <MenuItem value={'Star Wars'}>Star Wars</MenuItem>
-                  <MenuItem value={'Chima'}>Chima</MenuItem>
-                  <MenuItem value={'Ferrari'}>Ferrari</MenuItem>
-                  <MenuItem value={'Bionicle'}>Bionicle</MenuItem>
-                  <MenuItem value={'Promo'}>Promo</MenuItem>
-                  <MenuItem value={'Dots'}>Dots</MenuItem>
-                  <MenuItem value={'Mixels'}>Mixels</MenuItem>
+                  {legoCategories.map((oneCategory) => <MenuItem key={oneCategory} value={oneCategory}>{oneCategory}</MenuItem>)}
                 </Select>
               </FormControl>
               <TextField
@@ -245,8 +221,10 @@ const NewItem = () => {
                 maxRows={4}
               />
             </div>
-
-            <Button variant="contained" disabled={!enableSubmit} onClick={submitForm}>Submit</Button>
+            <div className='actionButtonContainer'>
+              <Button variant="contained" disabled={!enableSubmit} onClick={submitForm}>Submit</Button>
+              <Button variant="contained" onClick={handleClose}>Cancel</Button>
+            </div>
             {errorMsg && <Alert severity="error">{errorMsg}</Alert>}
           </Box>
           <h3>Required fields, you didn't completed yet:</h3>

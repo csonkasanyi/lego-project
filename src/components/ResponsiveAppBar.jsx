@@ -8,44 +8,34 @@ import Typography from '@mui/material/Typography';
 import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
-import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
+import { Link } from 'react-router-dom';
 
 const pages = [
   {
     name: 'Legos',
-    url: 'http://localhost:3000/legos'
+    url: '/legos'
   },
   {
     name: 'About us',
-    url: 'http://localhost:3000/about',
+    url: '/about',
   },
   {
     name: 'Contacts',
-    url: 'http://localhost:3000/contacts'
+    url: '/contacts'
   }
 ];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 const ResponsiveAppBar = () => {
   const [anchorElNav, setAnchorElNav] = useState(null);
-  const [anchorElUser, setAnchorElUser] = useState(null);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
-  const handleOpenUserMenu = (event) => {
-    setAnchorElUser(event.currentTarget);
-  };
 
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
-  };
-
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
   };
 
   return (
@@ -58,9 +48,8 @@ const ResponsiveAppBar = () => {
             noWrap
             component="div"
             sx={{ mr: 2, display: { xs: 'none', md: 'flex' } }}
-            onClick={(e) => console.log(e.target.innerText)}
           >
-            <a href='http://localhost:3000'>HOME</a>
+            <Link to='/'>HOME</Link>
           </Typography>
 
 
@@ -93,9 +82,9 @@ const ResponsiveAppBar = () => {
                 display: { xs: 'block', md: 'none' },
               }}
             >
-              {pages.map((page) => (
-                <MenuItem key={page.name} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center"><a href={page.url}>{page.name}</a></Typography>
+              {pages.map(({name, url}) => (
+                <MenuItem key={name} onClick={handleCloseNavMenu}>
+                  <Typography textAlign="center"><Link className='menuInMobileView' to={url}>{name}</Link></Typography>
                 </MenuItem>
               ))}
             </Menu>
@@ -106,15 +95,17 @@ const ResponsiveAppBar = () => {
             component="div"
             sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}
           >
-            <a href='http://localhost:3000'>HOME</a>
+            
+            <Link to='/'>HOME</Link>
+           
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {pages.map((page) => (
+            {pages.map(({name, url}) => (
               <Button
-                key={page.name}
+                key={name}
                 sx={{ my: 2, mx: 1, color: 'white', display: 'block' }}
               >
-                <a href={page.url}>{page.name}</a>
+                <Link to={url}>{name}</Link>
               </Button>
             ))}
           </Box>

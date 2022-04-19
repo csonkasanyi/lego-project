@@ -6,19 +6,17 @@ import App from './App';
 import Legos from './components/Legos';
 import About from './components/About';
 import Contacts from './components/Contact';
-import ResponsiveAppBar from './components/ResponsiveAppBar';
-import Box from '@mui/material/Box';
-import Link from '@mui/material/Link';
+import NotFound from './components/NotFound';
 
 ReactDOM.render(
   <React.StrictMode>
-    <ResponsiveAppBar />
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<App/>}/>
+        <Route path='/' element={<App />}/>
         <Route path="/legos" element={<Legos/>}/>
         <Route path="/about" element={<About/>}/>
         <Route path="/contacts" element={<Contacts/>}/>
+        <Route path="*" element={<NotFound/>}/>
       </Routes>
     </BrowserRouter>
   </React.StrictMode>,

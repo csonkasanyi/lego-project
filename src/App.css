@@ -28,11 +28,17 @@
   color: #61dafb;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.imgFluid {
+  height: 100%;
+  object-fit: cover;
+}
+
+.css-ohwg9z {
+  height: 500px;
+  margin: 0 auto;
+}
+
+.carouselContainer {
+  height: 500px;
+  margin: 0 auto;
 }
