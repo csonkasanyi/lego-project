@@ -87,10 +87,12 @@ const MediaCard = ({id, name, category, year, image}) => {
         });
 }
   const deleteOneLego = async (deleteId) => {
-    await fetch(`http://localhost:8080/${deleteId}`, {
-            method: 'DELETE',
-            });
-  }
+        await fetch(`http://localhost:8080/${deleteId}`, {
+        method: 'DELETE',
+        });
+      };
+    
+  
 
   return (
     <Card sx={{ width: 320, maxWidth: 345 }}>
