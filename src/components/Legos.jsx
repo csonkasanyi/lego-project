@@ -1,43 +1,36 @@
-import React, { useState } from "react";
-import Button from '@mui/material/Button';
-import { DataGrid } from '@mui/x-data-grid';
-import './legos.css'
+import React, { useState, useEffect } from "react";
+import NewItem from "./NewItem";
+import MediaCard from './MediaCard';
+import ResponsiveAppBar from "./ResponsiveAppBar";
+import './legos.css';
+import { db } from "../firebase-config";
+import { collection, getDocs } from 'firebase/firestore';
 
- 
 const Legos = () => {
-
     const [legos, setLegos] = useState([]);
+    const [ischanged, setIschanged] = useState(false);
 
-    const fetchLegos = async () => {
-        await fetch('http://localhost:8080')
-        .then((result) => result.json())
-        .then((data) => setLegos(data))
-        .then(console.log(legos))
-        .catch(err => {
-            console.log(`Error occured: ${err}`);
-        })
-    }
+    const legosCollection = collection(db, "legos");
 
-    const rows = legos.map(oneLego => (
-            { id: oneLego.id, name: oneLego.name, category: oneLego.category, year: oneLego.year }
-        ));
+    useEffect(() => {
+        const getProducts = async () => {
+          const data = await getDocs(legosCollection);
+          setLegos(data.docs.map(product => ({...product.data(), id:product.data().id, documentId:product.id})))
+        }
     
-    const columns = [
-        { field: 'id', headerName: 'ID', width: 150 },
-        { field: 'name', headerName: 'Name', width: 300 },
-        { field: 'category', headerName: 'Category', width: 150 },
-        { field: 'year', headerName: 'Year', width: 150 },
-      ];
-      
+        getProducts();
+      }, [ischanged]);
 
     return (
         <>
-            <Button variant="contained" onClick={fetchLegos}>Betöltés</Button>
-            <div className="tableContainer">
-                <div style={{ width: '60%' }} className='legoTable'>
-                    <DataGrid rows={rows} columns={columns} autoHeight={true} />
-                </div>
-            </div>          
+            <ResponsiveAppBar />
+            <NewItem stateChanger={setIschanged} ischanged={ischanged}/>
+            <h1 className="App">Please, view my Legos!</h1>
+            <h2 className="App">Total: {legos.length} pieces</h2>
+            <div className="legoContainer">
+                {legos.map(({...oneLego}) => <MediaCard {...oneLego} key={oneLego.id} stateChanger={setIschanged} ischanged={ischanged}/>
+                )}
+            </div>
         </>
     )
 }

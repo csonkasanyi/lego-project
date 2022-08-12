@@ -1,11 +1,26 @@
+import React from 'react';
 import './App.css';
-import { Button } from '@mui/material';
+import Carousel from 'react-material-ui-carousel';
+import ResponsiveAppBar from './components/ResponsiveAppBar';
 
-function App() {
+const App = () => {
+  const items = [
+   'images/01.jpg',
+   'images/02.jpg',
+   'images/03.jpg',
+   'images/04.jpg',
+   'images/05.jpg',
+  ]
+
   return (
     <>
-      <h1>Üdvözöllek oldalamon!</h1>
-      <Button>Teszt</Button>
+      <ResponsiveAppBar />
+      <div className="App">
+        <h1>Üdvözöllek oldalamon!</h1>
+        <Carousel>
+          {items.map((image) => <img src={image} className='imgFluid' key={image}/> )}
+        </Carousel>
+      </div>
     </>
   );
 }

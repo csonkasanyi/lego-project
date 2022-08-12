@@ -6,3 +6,7 @@ iframe {
 .contacts {
     height: 100%;
 }
+
+.link {
+    color: rgba(0, 0, 0, 0.6);
+}
