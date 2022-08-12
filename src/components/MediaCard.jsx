@@ -15,6 +15,8 @@ import Select from '@mui/material/Select';
 import { useState } from 'react';
 import legoCategories from './legoCategories';
 import { Alert } from '@mui/material';
+import { db } from '../firebase-config';
+import { deleteDoc, doc, updateDoc } from 'firebase/firestore';
 
 const style = {
   position: 'absolute',
@@ -28,18 +30,19 @@ const style = {
   p: 4,
 };
 
-const MediaCard = ({id, name, category, year, image}) => {
+const MediaCard = ({ id, name, category, year, image, description, documentId, ischanged, stateChanger }) => {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const [errorMsg, setErrorMsg] = useState('');
-  
+
   const updateLegoItem = {
     id,
     name,
     category,
     year,
     image,
+    description
   }
 
   const handleChange = (e) => {
@@ -48,51 +51,39 @@ const MediaCard = ({id, name, category, year, image}) => {
 
   const gatheringNewLegoInformation = ({ target: { value, id } }) => {
     const mapNameToProperty = {
-       legoId: 'id',
-       legoName: 'name',
-       legoCategory: 'category',
-       legoYear: 'year',
-       legoDescription: 'descrtiption',
-       legoImage: 'image',
-   };
-   
+      legoId: 'id',
+      legoName: 'name',
+      legoCategory: 'category',
+      legoYear: 'year',
+      legoDescription: 'descrtiption',
+      legoImage: 'image',
+    };
 
-   const property = mapNameToProperty[id];
 
-  if (isNaN(value)) {
-    updateLegoItem[property] = value;
+    const property = mapNameToProperty[id];
+
+    if (isNaN(value)) {
+      updateLegoItem[property] = value;
     } else {
-    updateLegoItem[property] = parseInt(value);
+      updateLegoItem[property] = parseInt(value);
     }
-}
+  }
 
-  const saveForm = async (id) => {
-    await fetch(`http://localhost:8080/${id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(updateLegoItem),
-      })
-      .then(response => {
-        if (response.status === 200) {
-          handleClose();
-          /*  return response.json(); */
-          } else {
-            setErrorMsg('A lego nem lett frissítve!');
-            }
-        })
-      .catch((error) => {
-          console.log('Error:', error);
-        });
-}
-  const deleteOneLego = async (deleteId) => {
-        await fetch(`http://localhost:8080/${deleteId}`, {
-        method: 'DELETE',
-        });
-      };
-    
-  
+const updateProduct = async (updateId) => {
+    const productDoc = doc(db, "legos", updateId);
+    await updateDoc(productDoc, updateLegoItem);
+    stateChanger(ischanged ? false : true);
+    handleClose();
+  }
+
+
+const removeProduct = async (deleteId) => {
+    const productDoc = doc(db, "legos", deleteId);
+    await deleteDoc(productDoc);
+    stateChanger(ischanged ? false : true);
+  }
+
+
 
   return (
     <Card sx={{ width: 320, maxWidth: 345 }}>
@@ -115,10 +106,13 @@ const MediaCard = ({id, name, category, year, image}) => {
         <Typography variant="h6" color="text.secondary">
           Azonosító: {id}
         </Typography>
+        <Typography variant="h6" color="text.secondary">
+          Description: {description}
+        </Typography>
       </CardContent>
       <CardActions className='actionButtonContainer'>
         <Button variant='contained' onClick={handleOpen}>Edit</Button>
-        <Button id={id} onClick={e => deleteOneLego(e.target.id)} variant='contained'>Delete</Button>
+        <Button id={id} onClick={e => removeProduct(documentId)} variant='contained'>Delete</Button>
       </CardActions>
       <Modal
         open={open}
@@ -187,11 +181,11 @@ const MediaCard = ({id, name, category, year, image}) => {
                 maxRows={4}
               />
             </div>
-          <CardActions className='actionButtonContainer'>
-            <Button variant="contained" onClick={e => saveForm(id)}>Save</Button>
-            <Button variant="contained" onClick={handleClose}>Cancel</Button>
-          </CardActions>
-          {errorMsg && <Alert severity="error">{errorMsg}</Alert>}
+            <CardActions className='actionButtonContainer'>
+              <Button variant="contained" onClick={e => updateProduct(documentId)}>Save</Button>
+              <Button variant="contained" onClick={handleClose}>Cancel</Button>
+            </CardActions>
+            {errorMsg && <Alert severity="error">{errorMsg}</Alert>}
           </Box>
         </Box>
 

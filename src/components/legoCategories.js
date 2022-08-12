@@ -1,4 +1,5 @@
 const legoCategories = [
+    'Please select!',
     'City',
     'Creator',
     'Star Wars',
